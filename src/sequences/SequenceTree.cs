@@ -65,6 +65,8 @@ public class SequenceTree : SequenceNode
 
     private void LoadStream(StreamReader s)
     {
+        var stopwatch = new System.Diagnostics.Stopwatch();
+        stopwatch.Start();
         Regex match_comment = new Regex(@"/\*([^*]|\*[^/])*\*/");
 
         /* Read file and remove all C comments */
@@ -74,6 +76,8 @@ public class SequenceTree : SequenceNode
         /* Parse all lines */
         foreach (string line in buffer.Split('\r', '\n'))
             ParseRule(line);
+        stopwatch.Stop();
+        Log.Debug("Loaded stream in {0} ms", stopwatch.ElapsedMilliseconds);
     }
 
     private static Regex m_r0 = new Regex(@"^\s*include\s*""([^""]*)""");
